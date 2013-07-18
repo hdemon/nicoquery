@@ -7,6 +7,7 @@ gem 'nokogiri'
 
 group :development, :test do
   gem 'pry'
+  gem 'watchr'
 end
 
 group :test do
