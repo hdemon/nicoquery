@@ -1,3 +1,7 @@
+require 'rest_client'
+require './app/http_client'
+
+
 module NicoAPI
   module Base
     def scheme
