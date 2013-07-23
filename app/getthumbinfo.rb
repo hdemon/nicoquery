@@ -1,20 +1,22 @@
-require './app/http_client'
-require './app/hash_mapper'
+require './app/base'
 
 
 module NicoAPI
   class GetThumbInfo
-    include NicoAPI::HashMapper
+    include NicoAPI::Base
 
-    SCHEME = 'http'
-    DOMAIN = 'ext.nicovideo.jp'
-    RESOURCE = 'api/getthumbinfo'
+    def set(video_id: video_id)
+      @dynamic_segment = video_id
+      @params_array = []
+    end
 
-    def get(video_id)
-      http_client = NicoAPI::HttpClient.instance
-      uri = URI.join "#{SCHEME}://#{DOMAIN}/#{RESOURCE}/#{video_id}"
-      http_client.set_params uri
-      map_to_hash http_client.get
+    private
+    def host
+      'ext.nicovideo.jp'
+    end
+
+    def static_segment
+      'api/getthumbinfo'
     end
   end
 end

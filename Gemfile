@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem 'rest-client'
 gem 'active_support'
+gem 'i18n'
 gem 'nori'
 gem 'nokogiri'
 
