@@ -1,4 +1,3 @@
-require 'rest_client'
 require './app/http_client'
 
 
