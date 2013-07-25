@@ -12,7 +12,7 @@ module NicoAPI
 
     private
     def host
-      'i.nicovideo.jp/'
+      'i.nicovideo.jp'
     end
 
     def static_segment

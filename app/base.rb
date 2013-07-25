@@ -11,8 +11,17 @@ module NicoAPI
       @params_array.join('&')
     end
 
+    def path
+      if @dynamic_segment.present?
+        static_segment + '/' + @dynamic_segment
+      else
+        static_segment
+      end
+    end
+
     def uri
-      URI.escape("#{scheme}://#{host}/#{static_segment}/#{@dynamic_segment}?#{params}")
+      _uri = scheme + "://" + [ ([host, path].join('/')), params].join('?')
+      URI.escape _uri
     end
 
     def get
@@ -20,8 +29,5 @@ module NicoAPI
       http_client.set_params uri.to_s
       http_client.get
     end
-
-
-    # module_function :get
   end
 end
