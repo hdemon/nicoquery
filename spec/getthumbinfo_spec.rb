@@ -9,8 +9,8 @@ describe "getthumbinfo" do
     end
 
     subject { @instance.uri }
-    it do
-       expect(subject).to be
-    end
+    specify {
+      expect(subject).to match /http:\/\/ext\.nicovideo\.jp\/api\/getthumbinfo\/(sm|nm)\d/
+    }
   end
 end
