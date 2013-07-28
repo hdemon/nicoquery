@@ -36,12 +36,13 @@ module NicoAPI
 
     def sort_param(sort)
       sort_string = case sort
-      when 'commented_at' then nil
-      when 'view_count'   then 'v'
-      when 'comment_num'  then 'r'
-      when 'mylist_count' then 'm'
-      when 'published_at' then 'f'
-      when 'length'       then 'l'
+      when :commented_at then nil
+      when :view_count   then 'v'
+      when :comment_num  then 'r'
+      when :mylist_count then 'm'
+      when :published_at then 'f'
+      when :length       then 'l'
+      else nil
       end
 
       sort_string.present? ? "sort=#{sort_string}" : ''
@@ -49,7 +50,8 @@ module NicoAPI
 
     def order_param(order)
       order_string = case order
-      when 'asc'  then 'order=a'
+      when :asc  then 'order=a'
+      when :desc  then 'order=d'
       else nil
       end
 

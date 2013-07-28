@@ -4,7 +4,7 @@ require 'nicoapi/tag_search'
 describe "tag_search" do
   before do
     @instance = NicoAPI::TagSearch.new
-    @instance.set tag: 'ゆっくり実況プレイ', sort: 'published_at', order: 'asc'
+    @instance.set tag: 'ゆっくり実況プレイ', sort: :published_at, order: :asc
   end
 
   describe "uri" do
