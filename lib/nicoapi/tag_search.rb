@@ -1,5 +1,5 @@
 require 'active_support/core_ext'
-require './app/base'
+require 'nicoapi/base'
 
 
 module NicoAPI

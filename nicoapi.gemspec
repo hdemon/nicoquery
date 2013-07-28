@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Nicoapi::VERSION
   spec.authors       = ["Masami Yonehara"]
   spec.email         = ["zeitdiebe@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{niconico low level api library}
+  spec.summary       = %q{niconico low level api library}
   spec.homepage      = ""
   spec.license       = "MIT"
 

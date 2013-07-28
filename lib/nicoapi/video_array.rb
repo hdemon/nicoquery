@@ -1,4 +1,4 @@
-require './app/base'
+require 'nicoapi/base'
 
 
 module NicoAPI
