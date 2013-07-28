@@ -1,4 +1,5 @@
-require './app/video_array'
+require 'nicoapi/video_array'
+
 
 describe "VideoArray" do
   before do
