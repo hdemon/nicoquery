@@ -8,7 +8,7 @@ module NicoAPI
 
     def set(tag: tag, sort: sort, order: order, page: page)
       @dynamic_segment = tag
-      @params_array = params_array(sort, order, page || 0)
+      @params_array = params_array(sort, order, page)
     end
 
     private

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nicoapi-core (0.0.1)
+    nicoapi-core (0.0.2)
       active_support
       i18n
       rest-client
