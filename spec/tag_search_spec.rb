@@ -4,7 +4,7 @@ require 'nicoapi/core/tag_search'
 describe "tag_search" do
   before do
     @instance = NicoAPI::TagSearch.new
-    @instance.set tag: 'ゆっくり実況プレイ', sort: :published_at, order: :asc
+    @instance.set tag: 'ゆっくり実況プレイ', sort: :published_at, order: :asc, page: 1
   end
 
   describe "uri" do
@@ -13,8 +13,9 @@ describe "tag_search" do
       # host and path
       expect(subject).to match /http:\/\/www\.nicovideo\.jp\/tag/
       # uri parameter
-      expect(subject).to match /\?(sort=(v|r|m|f|l)){0,}/
-      expect(subject).to match /\?(order=(a|d)){0,}/
+      expect(subject).to match /(sort=(v|r|m|f|l)){0,}/
+      expect(subject).to match /(order=(a|d)){0,}/
+      expect(subject).to match /(page=\d){1,}/
     }
   end
 end

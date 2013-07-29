@@ -6,9 +6,9 @@ module NicoAPI
   class TagSearch
     include NicoAPI::Base
 
-    def set(tag: tag, sort: sort, order: order)
+    def set(tag: tag, sort: sort, order: order, page: page)
       @dynamic_segment = tag
-      @params_array = params_array(sort, order)
+      @params_array = params_array(sort, order, page || 0)
     end
 
     private
@@ -20,11 +20,12 @@ module NicoAPI
       'tag'
     end
 
-    def params_array(sort, order)
+    def params_array(sort, order, page)
       array = []
 
       array.push sort_param(sort)
       array.push order_param(order)
+      array.push page_param(page)
       array.push "rss=2.0"
 
       array
@@ -56,6 +57,10 @@ module NicoAPI
       end
 
       order_string.present? ? 'order=a' : ''
+    end
+
+    def page_param(page)
+      "page=#{page}"
     end
   end
 end

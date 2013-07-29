@@ -18,9 +18,9 @@ module NicoAPI
     instance.get
   end
 
-  def tag_search(tag: tag, sort: sort, order: order)
+  def tag_search(tag: tag, sort: sort, order: order, page: page)
     instance = NicoAPI::TagSearch.new
-    instance.set tag: tag, sort: sort, order: order
+    instance.set tag: tag, sort: sort, order: order, page: page
     instance.get
   end
 
