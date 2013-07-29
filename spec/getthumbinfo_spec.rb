@@ -1,4 +1,4 @@
-require 'nicoapi/getthumbinfo'
+require 'nicoapi/core/getthumbinfo'
 
 
 describe "getthumbinfo" do

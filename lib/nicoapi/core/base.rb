@@ -1,4 +1,4 @@
-require 'nicoapi/http_client'
+require 'nicoapi/core/http_client'
 
 
 module NicoAPI

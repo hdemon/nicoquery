@@ -1,8 +1,8 @@
-require "nicoapi/version"
+require "nicoapi/core/version"
 
-require "nicoapi/getthumbinfo"
-require "nicoapi/tag_search"
-require "nicoapi/video_array"
+require "nicoapi/core/getthumbinfo"
+require "nicoapi/core/tag_search"
+require "nicoapi/core/video_array"
 
 
 module NicoAPI

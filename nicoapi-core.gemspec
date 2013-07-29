@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nicoapi/version'
+require 'nicoapi/core/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "nicoapi"
+  spec.name          = "nicoapi-core"
   spec.version       = Nicoapi::VERSION
   spec.authors       = ["Masami Yonehara"]
   spec.email         = ["zeitdiebe@gmail.com"]

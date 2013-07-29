@@ -1,4 +1,4 @@
-require 'nicoapi/tag_search'
+require 'nicoapi/core/tag_search'
 
 
 describe "tag_search" do

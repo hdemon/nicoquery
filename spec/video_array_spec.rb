@@ -1,4 +1,4 @@
-require 'nicoapi/video_array'
+require 'nicoapi/core/video_array'
 
 
 describe "VideoArray" do
