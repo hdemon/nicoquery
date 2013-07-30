@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/a2ikm/nabeatsu.png)](http://travis-ci.org/a2ikm/nabeatsu)
+[![Build Status](https://secure.travis-ci.org/hdemon/nicoapi-core.png)](http://travis-ci.org/hdemon/nicoapi-core)
 
 # Nicoapi::Core
 
