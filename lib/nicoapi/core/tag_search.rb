@@ -56,7 +56,7 @@ module NicoAPI
       else nil
       end
 
-      order_string.present? ? 'order=a' : ''
+      order_string.presence || ''
     end
 
     def page_param(page)
