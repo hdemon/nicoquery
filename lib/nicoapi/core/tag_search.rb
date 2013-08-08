@@ -21,14 +21,12 @@ module NicoAPI
     end
 
     def params_array(sort, order, page)
-      array = []
-
-      array.push sort_param(sort)
-      array.push order_param(order)
-      array.push page_param(page)
-      array.push "rss=2.0"
-
-      array
+      [
+        sort_param(sort),
+        order_param(order),
+        page_param(page),
+        format
+      ]
     end
 
     def format
