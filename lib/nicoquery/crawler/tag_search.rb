@@ -1,4 +1,4 @@
-require "nicoquery/source"
+require "nicoapi"
 require "nicoquery/parser"
 require "nori"
 
@@ -14,7 +14,7 @@ module NicoQuery
           command = nil
           page += 1
 
-          result = NicoQuery::Source.tag_search(tag: tag, sort: sort, order: order, page: page)
+          result = NicoAPI.tag_search(tag: tag, sort: sort, order: order, page: page)
           parser.parse result
 
           self.each_movie(parser.items) do |movie|
