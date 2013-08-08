@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'nicoquery/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "NicoQuery"
+  spec.name          = "nicoquery"
   spec.version       = NicoQuery::VERSION
   spec.authors       = ["Masami Yonehara"]
   spec.email         = ["zeitdiebe@gmail.com"]
