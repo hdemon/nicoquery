@@ -1,4 +1,4 @@
-require "nicoquery"
+require "nicoquery/crawler"
 
 
 describe "NicoQuery" do
@@ -7,7 +7,7 @@ describe "NicoQuery" do
       counter = 0
       @acquired_movies = []
 
-      NicoQuery.tag_search( tag: "ゆっくり実況プレイ",
+      NicoQuery::Crawler::TagSearch.execute( tag: "ゆっくり実況プレイ",
                             sort: :published_at,
                             order: :asc
                           ) do |result|
