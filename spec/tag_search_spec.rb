@@ -9,13 +9,12 @@ describe "tag_search" do
 
   describe "uri" do
     subject { @instance.uri }
-    specify {
-      # host and path
-      expect(subject).to match /http:\/\/www\.nicovideo\.jp\/tag/
-      # uri parameter
-      expect(subject).to match /(sort=(v|r|m|f|l)){0,}/
-      expect(subject).to match /(order=(a|d)){0,}/
-      expect(subject).to match /(page=\d){1,}/
-    }
+
+    specify { expect(subject).to match /http:\/\/www\.nicovideo\.jp\/tag/ }
+
+    specify { expect(subject).to match /(sort=(v|r|m|f|l)){0,}/ }
+    specify { expect(subject).to match /(order=(a|d)){0,}/ }
+    specify { expect(subject).to match /(page=\d){1,}/ }
+    specify { expect(subject).to match /rss\=2\.0/ }
   end
 end
