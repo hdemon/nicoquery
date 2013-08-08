@@ -1,5 +1,5 @@
 require "spec_helper"
-require "./lib/NicoQuery/parser/tag_search"
+require "./lib/nicoquery/parser/tag_search"
 require "./spec/parser/fixture"
 
 
