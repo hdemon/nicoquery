@@ -1,25 +1,33 @@
-require "nicoapi/core/version"
+require "nicoquery/source/version"
 
-require "nicoapi/core/getthumbinfo"
-require "nicoapi/core/tag_search"
-require "nicoapi/core/video_array"
+require "nicoquery/source"
 
 
-module NicoAPI
+module NicoQuery
+  def tag_search(tag: tag, sort: sort, order: order, &block)
+    NicoCrawler::TagSearch.execute(tag: tag, sort: sort, order: order, &block)
+  end
+
+  module_function :tag_search
+end
+
+
+
+module NicoQuery
   def getthumbinfo(video_id)
-    instance = NicoAPI::GetThumbInfo.new
+    instance = NicoQuery::GetThumbInfo.new
     instance.set video_id
     instance.get
   end
 
   def video_array(video_id_array)
-    instance = NicoAPI::VideoArray.new
+    instance = NicoQuery::VideoArray.new
     instance.set video_id_array
     instance.get
   end
 
   def tag_search(tag: tag, sort: sort, order: order, page: page)
-    instance = NicoAPI::TagSearch.new
+    instance = NicoQuery::TagSearch.new
     instance.set tag: tag, sort: sort, order: order, page: page
     instance.get
   end
