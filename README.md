@@ -1,6 +1,6 @@
-[![Build Status](https://secure.travis-ci.org/hdemon/nicoapi-core.png)](http://travis-ci.org/hdemon/nicoapi-core)
+[![Build Status](https://secure.travis-ci.org/hdemon/NicoQuery.png)](http://travis-ci.org/hdemon/NicoQuery)
 
-# Nicoapi::Core
+# NicoQuery::Core
 
 TODO: Write a gem description
 
@@ -8,7 +8,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'nicoapi-core'
+    gem 'NicoQuery'
 
 And then execute:
 
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install nicoapi-core
+    $ gem install NicoQuery
 
 ## Usage
 
@@ -29,3 +29,9 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+=======
+nicoquery
+=========
+
+the manipulator of niconico douga's resources
+
