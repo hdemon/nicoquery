@@ -1,4 +1,5 @@
 require "nicoquery/version"
+require "nicoquery/crawler"
 
 
 module NicoQuery
