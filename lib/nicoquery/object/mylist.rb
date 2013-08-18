@@ -1,38 +1,37 @@
 require "nicoquery/api/mylist_rss"
 require "nicoquery/object_mapper/mylist_rss"
+require "nicoquery/object/movie"
 
 
 module NicoQuery
   module Object
     class Mylist
+      attr_accessor :movies
+
+      [
+        'title',
+        'mylist_id',
+        'url',
+        'link',
+        'description',
+        'publish_date',
+        'last_build_date',
+        'creator',
+      ].each do |field_name|
+        define_method(field_name) { @hash.meta.send field_name }
+      end
+
       def initialize(mylist_id)
+        @movies = []
         @mylist_id = mylist_id
-        @source = (NicoQuery::Api::MylistRSS.new mylist_id).get
-        @hash = (NicoQuery::ObjectMapper::MylistRSS::Meta.new).parse @source
-      end
+        source = (NicoQuery::Api::MylistRSS.new mylist_id).get
+        @hash = NicoQuery::ObjectMapper::MylistRSS.new source
 
-      def mylist_id
-        @mylist_id
-      end
-
-      def title
-        @title ||= @hash.title.force_encoding('utf-8')
-      end
-
-      def url
-        @publish_date ||= @hash.publish_date
-      end
-
-      def description
-        @decription ||= @hash.decription
-      end
-
-      def publish_date
-        @publish_date ||= @hash.publish_date
-      end
-
-      def creator
-        @creator ||= @hash.creator
+        @hash.items.map do |item|
+          movie = NicoQuery::Object::Movie.new item.video_id
+          movie.set_mylist_rss_source item
+          @movies.push movie
+        end
       end
     end
   end
