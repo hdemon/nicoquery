@@ -1,5 +1,7 @@
 require "nicoquery/version"
 require "nicoquery/crawler"
+require "nicoquery/object/mylist"
+require "nicoquery/object/movie"
 
 
 module NicoQuery

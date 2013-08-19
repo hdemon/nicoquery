@@ -11,6 +11,9 @@ module NicoQuery
         'title',
         'url',
         # 'thread_id',
+        'view_counter',
+        'comment_num',
+        'mylist_counter',
         'publish_date',
         'description',
       ].each do |field_name|
