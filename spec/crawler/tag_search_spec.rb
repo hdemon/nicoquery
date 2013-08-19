@@ -1,16 +1,16 @@
-require "nicoquery"
+require "nicoquery/crawler/tag_search"
 
 
-describe "NicoQuery" do
+describe "NicoQuery:Crawler" do
   describe "tag_search" do
     before do
       counter = 0
       @acquired_movies = []
 
-      NicoQuery.tag_search( tag: "ゆっくり実況プレイ",
-                            sort: :published_at,
-                            order: :asc
-                          ) do |result|
+      NicoQuery::Crawler::TagSearch.execute( tag: "ゆっくり実況プレイ",
+                                             sort: :published_at,
+                                             order: :asc
+                                           ) do |result|
         counter += 1
         @acquired_movies.push result
         if counter >= 50 then :break else :continue end

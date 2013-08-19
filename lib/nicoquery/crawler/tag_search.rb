@@ -1,5 +1,5 @@
-require "nicoapi"
-require "nicoquery/parser"
+require "nicoquery/api/tag_search"
+require "nicoquery/object_mapper/tag_search"
 require "nori"
 
 
@@ -7,17 +7,16 @@ module NicoQuery
   module Crawler
     module TagSearch
       def execute(tag: tag, sort: sort, order: order, &block)
-        parser = NicoQuery::Parser::TagSearch.new
         page = 0
 
         loop do
           command = nil
           page += 1
 
-          result = NicoAPI.tag_search(tag: tag, sort: sort, order: order, page: page)
-          parser.parse result
+          source = (NicoQuery::Api::TagSearch.new tag: tag, sort: sort, order: order, page: page).get
+          hash = NicoQuery::ObjectMapper::TagSearchRss.new source
 
-          self.each_movie(parser.items) do |movie|
+          self.each_movie(hash.items) do |movie|
             command = block.call movie
             break if command == :break || command != :continue
           end
