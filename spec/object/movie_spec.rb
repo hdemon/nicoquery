@@ -38,8 +38,14 @@ describe "NicoQuery::Object::Movie" do
   # end
 
   describe "tags" do
-    it "returns movie instances" do
-      expect(@movie.tags).to be_an_instance_of Array
+    subject { @movie.tags }
+
+    it "returns object array" do
+      expect(subject).to be_an_instance_of Array
+    end
+
+    specify "each object has text and lock key-value" do
+      expect(subject).to include(text: '陰陽師', lock: true)
     end
   end
 end

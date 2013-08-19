@@ -40,32 +40,28 @@ module NicoQuery
         string[0].to_i * 60 + string[1].to_i
       end
 
-      def publish_date
-        first_retrieve
-      end
-
       def movie_type
         @hash['movie_type']
       end
 
       def size_high
-        @hash['size_high']
+        @hash['size_high'].to_i
       end
 
       def size_low
-        @hash['size_low']
+        @hash['size_low'].to_i
       end
 
       def view_counter
-        @hash['view_counter']
+        @hash['view_counter'].to_i
       end
 
       def comment_num
-        @hash['comment_num']
+        @hash['comment_num'].to_i
       end
 
       def mylist_counter
-        @hash['mylist_counter']
+        @hash['mylist_counter'].to_i
       end
 
       def last_res_body
@@ -85,39 +81,35 @@ module NicoQuery
       end
 
       def embeddable
-        @hash['embeddable']
+        @hash['embeddable'] == 1
       end
 
       def no_live_play
-        @hash['no_live_play']
+        @hash['no_live_play'] == 1
       end
 
       def tags
         xml = @xml.scan(/\<tags domain=\"jp\">\n.+\n\<\/tags\>/m)[0]
         parsed = Nokogiri::XML xml
-        parsed.xpath("//tag").map { |tag| Tag.new tag }
+        parsed.xpath("//tag").map do |tag_object| 
+          generate_tag_hash_by tag_object
+        end
       end
 
       def user_id
-        @hash['user_id']
+        @hash['user_id'].to_i
       end
 
-      class Tag
-        def initialize(parsed_xml)
-          @parsed_xml = parsed_xml
+      def generate_tag_hash_by(nokogiri_xml)
+        text = nokogiri_xml.text
+
+        lock = if nokogiri_xml.attributes['lock'].present?
+          nokogiri_xml.attributes['lock'].text.to_i == 1
+        else
+          false
         end
 
-        def text
-          @parsed_xml.text
-        end
-
-        def lock
-          if @parsed_xml.attributes['lock'].present?
-            @parsed_xml.attributes['lock'].text == 1
-          else
-            false
-          end
-        end
+        { text: text, lock: lock }
       end
     end
   end
