@@ -1,4 +1,3 @@
-require "nicoquery/object_mapper/base"
 require "nori"
 
 
