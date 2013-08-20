@@ -5,24 +5,28 @@ module NicoQuery
   module ObjectMapper
     class MylistRSS
       attr_reader :meta, :items
-
       def initialize(xml)
         parser = Nori.new
         parsed_xml = parser.parse xml
         entire = parsed_xml['rss']['channel']
 
-        @meta = Meta.new entire
+        @meta = Meta.new entire, title_prefix
         @items = entire['item'].map { |item| Item.new item }
       end
 
+      def title_prefix
+        "マイリスト"
+      end
+
       class Meta
-        def initialize(parsed_xml)
+        def initialize(parsed_xml, title_prefix)
+          @title_prefix = title_prefix
           @hash = parsed_xml
         end
 
         def title
           @hash['title']
-            .scan(/(?<=マイリスト\s).+(?=\‐ニコニコ動画)/)[0].split(' ')[0]
+            .scan(/(?<=#{@title_prefix}\s).+(?=\‐ニコニコ動画)/)[0].split(' ')[0]
             # .force_encoding('utf-8')
         end
 

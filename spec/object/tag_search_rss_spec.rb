@@ -13,8 +13,7 @@ describe "NicoQuery::Object::TagSearch" do
 
   describe "title" do
     it "returns string of title" do
-      binding.pry
-      expect(subject.title).to eq "to_test"
+      expect(subject.title).to eq "ゆっくり実況プレイ"
     end
   end
 
