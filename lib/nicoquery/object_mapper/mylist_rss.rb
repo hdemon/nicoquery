@@ -56,6 +56,15 @@ module NicoQuery
       end
 
       class Item
+
+        # <item>
+        #   <title>【初音ミク】みくみくにしてあげる♪【してやんよ】</title>
+        #   <link>http://www.nicovideo.jp/watch/sm1097445</link>
+        #   <guid isPermaLink="false">tag:nicovideo.jp,2007-09-20:/watch/1190218917</guid>
+        #   <pubDate>Sat, 17 Aug 2013 22:54:20 +0900</pubDate>
+        #   <description><![CDATA[<p class="nico-thumbnail"><img alt="【初音ミク】みくみくにしてあげる♪【してやんよ】" src="http://tn-skr2.smilevideo.jp/smile?i=1097445" width="94" height="70" border="0"/></p><p class="nico-description">おまえら、みっくみくにしてやんよ。歌詞はhttp://ikamo.hp.infoseek.co.jp/mikumiku.txt（9/20 1:55修正）。上げている他のもの→mylist/1450136</p><p class="nico-info"><small><strong class="nico-info-length">1:38</strong>｜<strong class="nico-info-date">2007年09月20日 01：22：02</strong> 投稿</small></p><p class="nico-numbers"><small>再生：<strong class="nico-numbers-view">10,643,217</strong>&nbsp;&#x20;コメント：<strong class="nico-numbers-res">2,726,450</strong>&nbsp;&#x20;マイリスト：<strong class="nico-numbers-mylist">210,310</strong></small></p>]]></description>
+        # </item>
+
         def initialize(parsed_xml)
           @hash = parsed_xml
         end
@@ -83,6 +92,18 @@ module NicoQuery
         def thumbnail_url
           description.raw_text.scan(/(?<=src\=\").{1,}(?=\"\swidth)/)[0]
           $&
+        end
+
+        def view_counter
+          description.raw_text.scan(/(?<=nico-numbers-view\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
+        end
+
+        def comment_num
+          description.raw_text.scan(/(?<=nico-numbers-res\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
+        end
+
+        def mylist_counter
+          description.raw_text.scan(/(?<=nico-numbers-mylist\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
         end
 
         def description
