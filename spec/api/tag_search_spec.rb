@@ -1,4 +1,4 @@
-require 'nicoquery/api/tag_search'
+require 'nicoquery/api/tag_search_rss'
 
 
 describe "tag_search" do
