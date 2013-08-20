@@ -7,7 +7,6 @@ module NicoQuery
     class TagSearchRss < MylistRSS
     end
 
-    binding.pry
     #   def title
     #     binding.pry
     #     @hash['title']

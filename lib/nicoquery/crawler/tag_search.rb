@@ -13,10 +13,8 @@ module NicoQuery
           command = nil
           page += 1
 
-          source = (NicoQuery::Api::TagSearch.new tag: tag, sort: sort, order: order, page: page).get
-          hash = NicoQuery::ObjectMapper::TagSearchRss.new source
-
-          self.each_movie(hash.items) do |movie|
+          tag_search_object = NicoQuery::Object::TagSearch.new tag: tag, sort: sort, order: order, page: page
+          self.each_movie(tag_search_object.movies) do |movie|
             command = block.call movie
             break if command == :break || command != :continue
           end

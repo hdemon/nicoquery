@@ -1,4 +1,5 @@
 require "nicoquery"
+require "pry"
 
 
 describe "NicoQuery" do
@@ -60,7 +61,7 @@ describe "NicoQuery" do
 
     subject { @movie }
 
-    it "returns NicoQuery::Object::Mylist instance" do
+    it "returns NicoQuery::Object::Movie instance" do
       expect(subject).to be_an_instance_of NicoQuery::Object::Movie
     end
 
@@ -96,4 +97,27 @@ describe "NicoQuery" do
       end
     end
   end
+
+  describe "tag_search" do
+    before do
+      counter = 0
+      @acquired_movies = []
+
+      NicoQuery.tag_search(  tag: "ゆっくり実況プレイ",
+                             sort: :published_at,
+                             order: :asc
+                          ) do |result|
+        counter += 1
+        @acquired_movies.push result
+        if counter >= 50 then :break else :continue end
+      end
+    end
+
+    subject { @acquired_movies }
+
+    specify "it returns NicoQuery::Object::Movie instance in the block" do
+      expect(subject[0]).to be_an_instance_of NicoQuery::Object::Movie
+    end
+  end
+
 end
