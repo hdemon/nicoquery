@@ -4,7 +4,7 @@ require 'nicoquery/api/base'
 
 module NicoQuery
   module Api
-    class TagSearch < NicoQuery::Api::Base
+    class TagSearchRss < NicoQuery::Api::Base
 
       def initialize(tag: tag, sort: sort, order: order, page: page)
         @dynamic_segment = tag
@@ -25,7 +25,8 @@ module NicoQuery
           sort_param(sort),
           order_param(order),
           page_param(page),
-          format
+          format,
+          "numbers=1", # it enables to catch view/comment/mylist cum.
         ]
       end
 

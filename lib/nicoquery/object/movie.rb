@@ -20,7 +20,7 @@ module NicoQuery
         define_method(field_name) do
           source =
             @source['mylist_rss'].presence ||
-            @source['tag_seach'].presence ||
+            @source['tag_search_rss'].presence ||
             @source['gethumbinfo'].presence ||
             Proc.new do
               source = (NicoQuery::Api::GetThumbInfo.new @video_id).get
@@ -68,8 +68,8 @@ module NicoQuery
         @source['mylist_rss'] ||= hash
       end
 
-      def set_tag_search_source(hash)
-        @source['tag_search'] ||= hash
+      def set_tag_search_rss_source(hash)
+        @source['tag_search_rss'] ||= hash
       end
 
     end

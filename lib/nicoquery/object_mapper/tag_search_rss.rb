@@ -6,9 +6,17 @@ module NicoQuery
   module ObjectMapper
     class TagSearchRss < MylistRSS
     end
+
+    binding.pry
+    #   def title
+    #     binding.pry
+    #     @hash['title']
+    #       .scan(/(?<=タグ\s).+(?=\‐ニコニコ動画)/)[0].split(' ')[0]
+    #       # .force_encoding('utf-8')
+    #   end
+    # end
   end
 end
-
 # <?xml version="1.0" encoding="utf-8"?>
 # <rss version="2.0"
 #      xmlns:atom="http://www.w3.org/2005/Atom">
