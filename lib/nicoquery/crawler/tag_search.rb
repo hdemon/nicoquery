@@ -1,4 +1,5 @@
 require "nicoquery/api/tag_search_rss"
+require "nicoquery/object/tag_search"
 require "nicoquery/object_mapper/tag_search_rss"
 require "nori"
 
