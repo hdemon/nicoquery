@@ -3,7 +3,7 @@ require 'nicoquery/api/tag_search_rss'
 
 describe "tag_search" do
   before do
-    @instance = NicoQuery::Api::TagSearch.new  tag: 'ゆっくり実況プレイ',
+    @instance = NicoQuery::Api::TagSearchRss.new  tag: 'ゆっくり実況プレイ',
                                                 sort: :published_at,
                                                 order: :asc,
                                                 page: 1
