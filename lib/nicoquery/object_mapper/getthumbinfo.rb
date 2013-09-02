@@ -91,7 +91,7 @@ module NicoQuery
       def tags
         xml = @xml.scan(/\<tags domain=\"jp\">\n.+\n\<\/tags\>/m)[0]
         parsed = Nokogiri::XML xml
-        parsed.xpath("//tag").map do |tag_object| 
+        parsed.xpath("//tag").map do |tag_object|
           generate_tag_hash_by tag_object
         end
       end
