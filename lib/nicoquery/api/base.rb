@@ -28,9 +28,7 @@ module NicoQuery
       def get
         RestClient.get uri.to_s do |response, request, result, &block|
           case response.code
-          when 200
-            response
-          when 403
+          when 200 || 403
             response
           end
         end
