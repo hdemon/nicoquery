@@ -139,7 +139,7 @@ module NicoQuery
           end
 
           def mylist_references
-            text.scan /(?<=mylist\/)\d{1,}/
+            text.scan(/(?<=mylist\/)\d{1,}/).map(&:to_i)
           end
 
           def community_references
