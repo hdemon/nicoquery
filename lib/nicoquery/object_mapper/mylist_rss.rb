@@ -10,12 +10,15 @@ module NicoQuery
         parsed_xml = parser.parse xml
         entire = parsed_xml['rss']['channel']
 
-        @meta = Meta.new entire, title_prefix        # noriは子要素が複数の場合は配列に変換するが、1つの場合には配列にしない。
-        # しかし、MylistRSSはitemsが配列であること前提にしているので、item要素が
-        # 1つだけの場合にも配列に変換する。
+        @meta = Meta.new entire, title_prefix
         if entire['item'].is_a? Array
           @items = entire['item'].map { |item| Item.new item }
+        elsif entire['item'].nil?
+          @items = []
         else
+        # noriは子要素が複数の場合は配列に変換するが、1つの場合には配列にしない。
+        # しかし、MylistRSSはitemsが配列であること前提にしているので、item要素が
+        # 1つだけの場合にも配列に変換する必要がある。
           @items = [ Item.new(entire['item']) ]
         end
       end

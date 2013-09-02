@@ -25,8 +25,10 @@ module NicoQuery
         @movies = []
         @mylist_id = mylist_id
         source = (NicoQuery::Api::MylistRSS.new mylist_id).get
+
         @hash = NicoQuery::ObjectMapper::MylistRSS.new source
 
+        return if @hash.items.nil?
         @hash.items.map do |item|
           movie = NicoQuery::Object::Movie.new item.video_id
           movie.set_mylist_rss_source item

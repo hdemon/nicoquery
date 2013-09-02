@@ -21,7 +21,7 @@ module NicoQuery
       end
 
       def params_array
-        [format]
+        [format, 'numbers=1']
       end
 
       def format
