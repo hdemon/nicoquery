@@ -13,8 +13,14 @@ module NicoQuery
     NicoQuery::Object::Mylist.new mylist_id
   end
 
-  def movie(video_id)
-    NicoQuery::Object::Movie.new video_id
+  def movie(args)
+    if args.is_a? Array
+      array = []
+      NicoQuery::Crawler::BulkScraping.execute(args) {|movie| array << movie }
+      array
+    else
+      NicoQuery::Object::Movie.new args
+    end
   end
 
   module_function :tag_search
