@@ -1,5 +1,6 @@
 require "nicoquery/version"
 require "nicoquery/crawler/tag_search"
+require "nicoquery/crawler/bulk_scraping"
 require "nicoquery/object/mylist"
 require "nicoquery/object/movie"
 
