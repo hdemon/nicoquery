@@ -23,6 +23,12 @@ describe "NicoQuery::ObjectMapper::VideoArray" do
       end
     end
 
+    describe "#thread_id" do
+      it "returns number of mylist_id" do
+        expect(subject.thread_id).to eq 1364047834
+      end
+    end
+
     describe "#publish_date" do
       it "returns number of thread_id" do
         expect(subject.publish_date).to eq Time.new(2013, 3, 23, 23, 10, 32)

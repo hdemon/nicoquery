@@ -35,6 +35,10 @@ module NicoQuery
           @hash['video']['id']
         end
 
+        def thread_id
+          @hash['thread']['id'].to_i
+        end
+
         def title
           @hash['video']['title']
         end
@@ -69,7 +73,7 @@ module NicoQuery
         end
 
         def comment_num
-          @hash['video']['comment_num'].to_i
+          @hash['thread']['num_res'].to_i
         end
 
         def mylist_counter
