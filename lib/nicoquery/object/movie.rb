@@ -21,6 +21,7 @@ module NicoQuery
           source =
             @source['mylist_rss'].presence ||
             @source['tag_search_rss'].presence ||
+            @source['video_array'].presence ||
             @source['gethumbinfo'].presence ||
             Proc.new do
               source = (NicoQuery::Api::GetThumbInfo.new @video_id).get
@@ -33,13 +34,13 @@ module NicoQuery
 
       [
         'movie_type',
-        'size_high',
+        # 'size_high',
         'size_low',
-        'last_res_body',
-        'thumb_type',
-        'embeddable',
-        'no_live_play',
-        'user_id',
+        # 'last_res_body',
+        # 'thumb_type',
+        # 'embeddable',
+        # 'no_live_play',
+        # 'user_id',
         'tags',
       ].each do |field_name|
         define_method(field_name) do
@@ -60,18 +61,21 @@ module NicoQuery
         @video_id = video_id
       end
 
-      def set_getthumbinfo_source(hash)
-        @source['getthumbinfo'] ||= hash
+      def set_getthumbinfo_source(source_object)
+        @source['getthumbinfo'] ||= source_object
       end
 
-      def set_mylist_rss_source(hash)
-        @source['mylist_rss'] ||= hash
+      def set_mylist_rss_source(source_object)
+        @source['mylist_rss'] ||= source_object
       end
 
-      def set_tag_search_rss_source(hash)
-        @source['tag_search_rss'] ||= hash
+      def set_tag_search_rss_source(source_object)
+        @source['tag_search_rss'] ||= source_object
       end
 
+      def set_video_array_source(source_object)
+        @source['video_array'] ||= source_object
+      end
     end
   end
 end

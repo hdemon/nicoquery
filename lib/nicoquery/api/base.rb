@@ -1,4 +1,5 @@
 require 'rest_client'
+require 'active_support/all'
 
 
 module NicoQuery
