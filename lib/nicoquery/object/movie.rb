@@ -26,7 +26,7 @@ module NicoQuery
             @source['video_array'].presence ||
             @source['gethumbinfo'].presence ||
             Proc.new do
-              source = (NicoQuery::Api::GetThumbInfo.new @video_id).get
+              source = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
               set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new source)
             end.call
 
@@ -50,7 +50,7 @@ module NicoQuery
             @source['gethumbinfo'].presence ||
             @source['video_array'].presence ||
             Proc.new do
-              source = (NicoQuery::Api::GetThumbInfo.new @video_id).get
+              source = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
               set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new source)
             end.call
 
@@ -58,9 +58,13 @@ module NicoQuery
         end
       end
 
-      def initialize(video_id)
+      def initialize(video_id_of_thread_id)
         @source = {}
-        @video_id = video_id
+        if video_id_of_thread_id.to_s.match(/sm|nm/)
+          @video_id = video_id_of_thread_id
+        else
+          @thread_id = video_id_of_thread_id
+        end
       end
 
       def set_getthumbinfo_source(source_object)

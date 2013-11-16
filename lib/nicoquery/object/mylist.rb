@@ -29,7 +29,7 @@ module NicoQuery
 
         return if @hash.items.nil?
         @hash.items.map do |item|
-          movie = NicoQuery::Object::Movie.new item.video_id
+          movie = NicoQuery::Object::Movie.new item.video_id.presence || item.thread_id
           movie.set_mylist_rss_source item
           @movies.push movie
         end

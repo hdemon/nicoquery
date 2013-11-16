@@ -4,8 +4,8 @@ require 'nicoquery/api/base'
 module NicoQuery
   module Api
     class GetThumbInfo < NicoQuery::Api::Base
-      def initialize(video_id)
-        @dynamic_segment = video_id
+      def initialize(video_id_or_thread_id)
+        @dynamic_segment = video_id_or_thread_id.to_s
         @params_array = []
       end
 

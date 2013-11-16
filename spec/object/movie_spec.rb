@@ -4,7 +4,7 @@ require 'webmock/rspec'
 
 
 describe "NicoQuery::Object::Movie" do
-  context "when specified movie is exist" do
+  context "when specified video id and this movie is exist" do
     before do
       # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
       # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
@@ -57,6 +57,21 @@ describe "NicoQuery::Object::Movie" do
 
       specify "each object has text and lock key-value" do
         expect(subject).to include(text: '陰陽師', lock: true)
+      end
+    end
+  end
+
+  context "when specified video id and this movie is exist" do
+    before do
+      # thread_id:1173108780 == video_id:sm9
+      @movie = NicoQuery::Object::Movie.new(1173108780)
+    end
+
+    subject { @movie }
+
+    describe "title" do
+      it "returns string of title" do
+        expect(subject.title).to eq "新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師"
       end
     end
   end
