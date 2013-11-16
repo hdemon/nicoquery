@@ -8,6 +8,8 @@ module NicoQuery
       attr_reader :video_id
 
       [
+        'deleted?',
+
         'title',
         'url',
         # 'thread_id',

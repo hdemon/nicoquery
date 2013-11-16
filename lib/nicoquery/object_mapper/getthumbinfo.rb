@@ -7,16 +7,26 @@ module NicoQuery
     class GetThumbInfo
       def initialize(xml)
         @xml = xml
-        parser = Nori.new
-        parsed_xml = parser.parse xml
-        @hash = parsed_xml['nicovideo_thumb_response']['thumb']
+        @parser = Nori.new
+        @parsed_xml = @parser.parse xml
+        @hash = @parsed_xml['nicovideo_thumb_response']['thumb']
+      end
+
+      def deleted?
+        if @parsed_xml['nicovideo_thumb_response']["error"].presence
+          @parsed_xml['nicovideo_thumb_response']["error"].presence["code"].presence == "DELETED"
+        else
+          false
+        end
       end
 
       def video_id
+        return nil if @hash == nil
         @hash['video_id']
       end
 
       def title
+        return nil if @hash == nil
         @hash['title']
       end
 
@@ -25,10 +35,12 @@ module NicoQuery
       end
 
       def thumbnail_url
+        return nil if @hash == nil
         @hash['thumbnail_url']
       end
 
       def first_retrieve
+        return nil if @hash == nil
         @hash['first_retrieve'].to_time
       end
 
@@ -37,59 +49,73 @@ module NicoQuery
       end
 
       def length
+        return nil if @hash == nil
         string = @hash['length'].split(':')
         string[0].to_i * 60 + string[1].to_i
       end
 
       def movie_type
+        return nil if @hash == nil
         @hash['movie_type']
       end
 
       def size_high
+        return nil if @hash == nil
         @hash['size_high'].to_i
       end
 
       def size_low
+        return nil if @hash == nil
         @hash['size_low'].to_i
       end
 
       def view_counter
+        return nil if @hash == nil
         @hash['view_counter'].to_i
       end
 
       def comment_num
+        return nil if @hash == nil
         @hash['comment_num'].to_i
       end
 
       def mylist_counter
+        return nil if @hash == nil
         @hash['mylist_counter'].to_i
       end
 
       def last_res_body
+        return nil if @hash == nil
         @hash['last_res_body']
       end
 
       def url
+        return nil if @hash == nil
         @hash['watch_url']
       end
 
       def watch_url
+        return nil if @hash == nil
         @hash['watch_url']
       end
 
       def thumb_type
+        return nil if @hash == nil
         @hash['thumb_type']
       end
 
       def embeddable
+        return nil if @hash == nil
         @hash['embeddable'] == 1
       end
 
       def no_live_play
+        return nil if @hash == nil
         @hash['no_live_play'] == 1
       end
 
       def tags
+        return nil if @hash == nil
         xml = @xml.scan(/\<tags domain=\"jp\">\n.+\n\<\/tags\>/m)[0]
         parsed = Nokogiri::XML xml
         parsed.xpath("//tag").map do |tag_object|
@@ -98,6 +124,7 @@ module NicoQuery
       end
 
       def user_id
+        return nil if @hash == nil
         @hash['user_id'].to_i
       end
 
