@@ -11,6 +11,10 @@ module NicoQuery
         @params_array = params_array
       end
 
+      def forbidden?
+        @forbidden == true
+      end
+
       private
       def host
         'www.nicovideo.jp'

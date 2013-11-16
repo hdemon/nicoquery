@@ -5,6 +5,8 @@ require 'active_support/all'
 module NicoQuery
   module Api
     class Base
+      attr_reader :forbidden
+
       def scheme
         'http'
       end
@@ -29,7 +31,11 @@ module NicoQuery
       def get
         RestClient.get uri.to_s do |response, request, result, &block|
           case response.code
-          when 200 || 403
+          when 200
+            @forbidden = false
+            response
+          when 403
+            @forbidden = true
             response
           end
         end

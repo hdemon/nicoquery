@@ -24,9 +24,8 @@ module NicoQuery
       def initialize(mylist_id)
         @movies = []
         @mylist_id = mylist_id
-        source = (NicoQuery::Api::MylistRSS.new mylist_id).get
-
-        @hash = NicoQuery::ObjectMapper::MylistRSS.new source
+        @source = NicoQuery::Api::MylistRSS.new mylist_id
+        @hash = NicoQuery::ObjectMapper::MylistRSS.new @source.get
 
         return if @hash.items.nil?
         @hash.items.map do |item|
@@ -34,6 +33,14 @@ module NicoQuery
           movie.set_mylist_rss_source item
           @movies.push movie
         end
+      end
+
+      def available?
+        [!forbidden?].all?
+      end
+
+      def forbidden?
+        @source.forbidden
       end
     end
   end

@@ -7,9 +7,9 @@ module NicoQuery
       attr_reader :meta, :items
 
       def initialize(xml)
-        parser = Nori.new
-        parsed_xml = parser.parse xml
-        entire = parsed_xml['rss']['channel']
+        @parser = Nori.new
+        @parsed_xml = @parser.parse xml
+        entire = @parsed_xml['rss']['channel']
 
         @meta = Meta.new entire, title_prefix
         if entire['item'].is_a? Array
@@ -35,8 +35,7 @@ module NicoQuery
         end
 
         def title
-          @hash['title']
-            .scan(/(?<=#{@title_prefix}\s).+(?=\‐ニコニコ動画)/)[0].split(' ')[0]
+          @hash['title'].scan(/(?<=#{@title_prefix}\s).+(?=\‐ニコニコ動画)/)[0].split(' ')[0]
             # .force_encoding('utf-8')
         end
 
@@ -45,26 +44,32 @@ module NicoQuery
         end
 
         def link
-          @hash['link']
+          @hash['link'].presence
         end
 
         def mylist_id
+          return nil unless @hash['link'].present?
           @hash['link'].scan(/(?<=mylist\/)\d{1,}/)[0].to_i
         end
 
         def description
+          return nil unless @hash['description'].present?
+          return nil if @hash['description'] == "このマイリストは非公開に設定されています。"
           @hash['description']
         end
 
         def publish_date
+          return nil unless @hash['publish_date'].present?
           Time.parse @hash['publish_date']
         end
 
         def last_build_date
+          return nil unless @hash['lastBuildDate'].present?
           Time.parse @hash['lastBuildDate']
         end
 
         def creator
+          return nil unless @hash['dc:creator'].present?
           @hash['dc:creator']
         end
       end
@@ -75,47 +80,58 @@ module NicoQuery
         end
 
         def title
+          return nil if @hash == nil
           @hash['title']
         end
 
         def video_id
+          return nil if @hash == nil
           (url.scan(/((sm|nm)\d{1,})/).map {|e| e[0]})[0]
         end
 
         def url
+          return nil if @hash == nil
           @hash['link']
         end
 
         def thread_id
+          return nil if @hash == nil
           @hash['guid'].scan(/(?<=watch\/)\d{1,}$/)[0].to_i
         end
 
         def publish_date
+          return nil if @hash == nil
           Time.parse @hash['pubDate']
         end
 
         def thumbnail_url
+          return nil if @hash == nil
           description.raw_text.scan(/(?<=src\=\").{1,}(?=\"\swidth)/)[0]
           $&
         end
 
         def view_counter
+          return nil if @hash == nil
           description.raw_text.scan(/(?<=nico-numbers-view\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
         end
 
         def comment_num
+          return nil if @hash == nil
           description.raw_text.scan(/(?<=nico-numbers-res\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
         end
 
         def mylist_counter
+          return nil if @hash == nil
           description.raw_text.scan(/(?<=nico-numbers-mylist\">)[0-9,]{1,}(?=\<\/strong)/)[0].delete(',').to_i
         end
 
         def description
+          return nil if @hash == nil
           @_description ||= Description.new @hash['description']
         end
 
         def length
+          return nil if @hash == nil
           description.raw_text.scan(/(?<=class\=\"nico\-info\-length\"\>)\d{1,}\:\d{1,2}(?=\<\/strong\>)/)
           length_string = $&.to_s.split(':')
           length_string[0].to_i * 60 + length_string[1].to_i

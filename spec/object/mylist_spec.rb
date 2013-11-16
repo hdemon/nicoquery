@@ -1,47 +1,91 @@
 require "nicoquery/object/mylist"
+require "fixture/mylist_rss_403"
 
 
 describe "NicoQuery::Object::Mylist" do
-  before do
-    # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
-    # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
-    # sm1097445 【初音ミク】みくみくにしてあげる♪【してやんよ】
-    @mylist = NicoQuery::Object::Mylist.new('38369702')
-  end
+  context "when specified mylist exists and is public" do
+    before do
+      # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
+      # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
+      # sm1097445 【初音ミク】みくみくにしてあげる♪【してやんよ】
+      @mylist = NicoQuery::Object::Mylist.new(38369702)
+    end
 
-  describe "movies" do
-    it "returns movie instances" do
-      expect(@mylist.movies).to be_an_instance_of Array
-      expect(@mylist.movies[0]).to be_an_instance_of NicoQuery::Object::Movie
+    describe "movies" do
+      it "returns movie instances" do
+        expect(@mylist.movies).to be_an_instance_of Array
+        expect(@mylist.movies[0]).to be_an_instance_of NicoQuery::Object::Movie
+      end
+    end
+
+    describe "title" do
+      subject { @mylist }
+      it "returns string of title" do
+        expect(subject.title).to eq "to_test"
+      end
+    end
+
+    describe "url" do
+      subject { @mylist }
+      it "returns string of url" do
+        expect(subject.url).to eq "http://www.nicovideo.jp/mylist/38369702"
+      end
+    end
+
+    describe "mylist_id" do
+      subject { @mylist }
+      it "returns number of mylist_id" do
+        expect(subject.mylist_id).to eq 38369702
+      end
+    end
+
+    describe "description" do
+      subject { @mylist }
+      it "returns string of title" do
+        # mylistのrssでは、descriptionの全文取得はできず、頭から256文字までしか取得できない。
+        expect(subject.description).to eq "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa. Sed eleifend nonummy diam. Praesent mauris ante, elementum et, bibendum at, posuere sit amet, nibh. Duis "
+      end
     end
   end
 
-  describe "title" do
-    subject { @mylist }
-    it "returns string of title" do
-      expect(subject.title).to eq "to_test"
-    end
-  end
+  context "when access for specified mylist is forbidden" do
+    before do
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://www.nicovideo.jp/mylist/999999?rss=2.0&numbers=1").
+        to_return(:status => 403, :body => Fixture.mylist_rss_403, :headers => {})
 
-  describe "url" do
-    subject { @mylist }
-    it "returns string of url" do
-      expect(subject.url).to eq "http://www.nicovideo.jp/mylist/38369702"
+      @mylist = NicoQuery::Object::Mylist.new(999999)
     end
-  end
 
-  describe "mylist_id" do
-    subject { @mylist }
-    it "returns number of mylist_id" do
-      expect(subject.mylist_id).to eq 38369702
+    after do
+      WebMock.disable!
     end
-  end
 
-  describe "description" do
     subject { @mylist }
-    it "returns string of title" do
-      # mylistのrssでは、descriptionの全文取得はできず、頭から256文字までしか取得できない。
-      expect(subject.description).to eq "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa. Sed eleifend nonummy diam. Praesent mauris ante, elementum et, bibendum at, posuere sit amet, nibh. Duis "
+
+    describe "#forbidden?" do
+      it "returns true" do
+        expect(subject.forbidden?).to be_true
+      end
+    end
+
+    describe "#available?" do
+      it "returns false" do
+        expect(subject.available?).to be_false
+      end
+    end
+
+    describe "getter methods" do
+      specify "all returns nil" do
+        # タイトルだけは非公開でも取得できる？
+        # expect(subject.title).to be_nil
+        # expect(subject.url).to be_nil
+        # expect(subject.link).to be_nil
+        expect(subject.description).to be_nil
+        expect(subject.publish_date).to be_nil
+        expect(subject.last_build_date).to be_nil
+        expect(subject.creator).to be_nil
+      end
     end
   end
 end
