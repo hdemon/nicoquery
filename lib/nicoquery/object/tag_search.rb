@@ -22,8 +22,8 @@ module NicoQuery
 
       def initialize(tag: tag, sort: sort, order: order, page: page)
         @movies = []
-        source = (NicoQuery::Api::TagSearchRss.new(tag: tag, sort: sort, order: order, page: page)).get
-        @hash = NicoQuery::ObjectMapper::TagSearchRss.new source
+        response = (NicoQuery::Api::TagSearchRss.new(tag: tag, sort: sort, order: order, page: page)).get
+        @hash = NicoQuery::ObjectMapper::TagSearchRss.new response[:body]
 
         @hash.items.map do |item|
           movie = NicoQuery::Object::Movie.new item.video_id

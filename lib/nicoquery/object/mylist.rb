@@ -24,8 +24,8 @@ module NicoQuery
       def initialize(mylist_id)
         @movies = []
         @mylist_id = mylist_id
-        @source = NicoQuery::Api::MylistRSS.new mylist_id
-        @hash = NicoQuery::ObjectMapper::MylistRSS.new @source.get
+        @response = (NicoQuery::Api::MylistRSS.new mylist_id).get
+        @hash = NicoQuery::ObjectMapper::MylistRSS.new @response[:body]
 
         return if @hash.items.nil?
         @hash.items.map do |item|
@@ -40,7 +40,7 @@ module NicoQuery
       end
 
       def forbidden?
-        @source.forbidden
+        @response[:status_code] == 403
       end
     end
   end

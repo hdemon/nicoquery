@@ -29,16 +29,13 @@ module NicoQuery
       end
 
       def get
-        RestClient.get uri.to_s do |response, request, result, &block|
-          case response.code
-          when 200
-            @forbidden = false
-            response
-          when 403
-            @forbidden = true
-            response
-          end
+        res = nil
+
+        RestClient.get uri.to_s do |response|
+          res = response
         end
+
+        { body: res.to_s, headers: res.headers, status_code: res.code }
       end
     end
   end

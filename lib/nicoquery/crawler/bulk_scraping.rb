@@ -10,8 +10,8 @@ module NicoQuery
     module BulkScraping
       def execute(id_array, &block)
         @movies = []
-        source = (NicoQuery::Api::VideoArray.new id_array).get
-        @hash = NicoQuery::ObjectMapper::VideoArray.new source
+        response = (NicoQuery::Api::VideoArray.new id_array).get
+        @hash = NicoQuery::ObjectMapper::VideoArray.new response[:body]
 
         @hash.movies.each do |movie|
           m = NicoQuery::Object::Movie.new movie.video_id

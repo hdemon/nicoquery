@@ -25,10 +25,7 @@ module NicoQuery
             @source['tag_search_rss'].presence ||
             @source['video_array'].presence ||
             @source['gethumbinfo'].presence ||
-            Proc.new do
-              source = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
-              set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new source)
-            end.call
+            get_from_getthumbinfo
 
           source.send field_name
         end
@@ -49,11 +46,7 @@ module NicoQuery
           source =
             @source['gethumbinfo'].presence ||
             @source['video_array'].presence ||
-            Proc.new do
-              source = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
-              set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new source)
-            end.call
-
+            get_from_getthumbinfo
           source.send field_name
         end
       end
@@ -66,6 +59,11 @@ module NicoQuery
           @thread_id = video_id_of_thread_id
         end
       end
+
+      # def community?
+      #   if @source['getthumbinfo'].present?
+      #     @source['getthumbinfo']
+      # end
 
       def set_getthumbinfo_source(source_object)
         @source['getthumbinfo'] ||= source_object
@@ -81,6 +79,12 @@ module NicoQuery
 
       def set_video_array_source(source_object)
         @source['video_array'] ||= source_object
+      end
+
+      def get_from_getthumbinfo
+        response = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
+        set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new response[:body])
+        @source['getthumbinfo']
       end
     end
   end
