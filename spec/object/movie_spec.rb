@@ -16,10 +16,8 @@ describe "NicoQuery::Object::Movie" do
     subject { @movie }
 
     describe "#deleted?" do
-      subject { @movie.deleted? }
-
       it "returns false" do
-        expect(subject).to be_false
+        expect(subject.deleted?).to be_false
       end
     end
 
