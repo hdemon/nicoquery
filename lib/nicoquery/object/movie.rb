@@ -62,10 +62,12 @@ module NicoQuery
         end
       end
 
-      # def community?
-      #   if @source[:getthumbinfo].present?
-      #     @source[:getthumbinfo]
-      # end
+      def community?
+        unless @source[:getthumbinfo].present?
+          get_and_set_getthumbinfo_source
+        end
+        @source[:getthumbinfo].community?
+      end
 
       def set_getthumbinfo_source(source_object)
         @source[:getthumbinfo] ||= source_object

@@ -20,6 +20,14 @@ module NicoQuery
         end
       end
 
+      def community?
+        if @parsed_xml['nicovideo_thumb_response']["error"].presence
+          @parsed_xml['nicovideo_thumb_response']["error"].presence["code"].presence == "COMMUNITY"
+        else
+          false
+        end
+      end
+
       def video_id
         return nil if @hash == nil
         @hash['video_id']

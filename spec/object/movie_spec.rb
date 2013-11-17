@@ -1,5 +1,6 @@
 require 'nicoquery/object/movie'
 require 'fixture/getthumbinfo_deleted'
+require 'fixture/getthumbinfo_community'
 require 'webmock/rspec'
 
 
@@ -78,6 +79,7 @@ describe "NicoQuery::Object::Movie" do
 
   context "when specified movie is deleted" do
     before do
+      WebMock.enable!
       WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm999999?").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => Fixture.getthumbinfo_deleted, :headers => {})
@@ -88,10 +90,40 @@ describe "NicoQuery::Object::Movie" do
     subject { @movie }
 
     describe "#deleted?" do
-      subject { @movie.deleted? }
-
       it "returns true" do
-        expect(subject).to be_true
+        expect(subject.deleted?).to be_true
+      end
+    end
+
+    describe "getter methods" do
+      specify "all returns nil" do
+        expect(subject.title).to be_nil
+        expect(subject.url).to be_nil
+        expect(subject.view_counter).to be_nil
+        expect(subject.tags).to be_nil
+      end
+    end
+  end
+
+  context "when specified movie belongs to community" do
+    before do
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm99999901?").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => Fixture.getthumbinfo_community, :headers => {})
+
+      @movie = NicoQuery::Object::Movie.new('sm99999901')
+    end
+
+    after do
+      WebMock.disable!
+    end
+
+    subject { @movie }
+
+    describe "#community?" do
+      it "returns true" do
+        expect(subject.community?).to be_true
       end
     end
 
@@ -105,34 +137,4 @@ describe "NicoQuery::Object::Movie" do
     end
 
   end
-
-
-  # context "when specified movie is deleted" do
-  #   before do
-  #     WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm999999?").
-  #       with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
-  #       to_return(:status => 200, :body => Fixture.getthumbinfo_deleted, :headers => {})
-
-  #     @movie = NicoQuery::Object::Movie.new('sm999999')
-  #   end
-
-  #   subject { @movie }
-
-  #   describe "#community?" do
-  #     subject { @movie.community? }
-
-  #     it "returns true" do
-  #       expect(subject).to be_true
-  #     end
-  #   end
-
-  #   describe "getter methods" do
-  #     specify "all returns nil" do
-  #       expect(subject.title).to be_nil
-  #       expect(subject.url).to be_nil
-  #       expect(subject.view_counter).to be_nil
-  #       expect(subject.tags).to be_nil
-  #     end
-  #   end
-  # end
 end
