@@ -21,11 +21,11 @@ module NicoQuery
       ].each do |field_name|
         define_method(field_name) do
           source =
-            @source['mylist_rss'].presence ||
-            @source['tag_search_rss'].presence ||
-            @source['video_array'].presence ||
-            @source['gethumbinfo'].presence ||
-            get_from_getthumbinfo
+            @source[:mylist_rss].presence ||
+            @source[:tag_search_rss].presence ||
+            @source[:video_array].presence ||
+            @source[:getthumbinfo].presence ||
+            Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
 
           source.send field_name
         end
@@ -44,15 +44,17 @@ module NicoQuery
       ].each do |field_name|
         define_method(field_name) do
           source =
-            @source['gethumbinfo'].presence ||
-            @source['video_array'].presence ||
-            get_from_getthumbinfo
+            @source[:getthumbinfo].presence ||
+            @source[:video_array].presence ||
+            Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
           source.send field_name
         end
       end
 
       def initialize(video_id_of_thread_id)
         @source = {}
+        @response = {}
+
         if video_id_of_thread_id.to_s.match(/sm|nm/)
           @video_id = video_id_of_thread_id
         else
@@ -61,30 +63,29 @@ module NicoQuery
       end
 
       # def community?
-      #   if @source['getthumbinfo'].present?
-      #     @source['getthumbinfo']
+      #   if @source[:getthumbinfo].present?
+      #     @source[:getthumbinfo]
       # end
 
       def set_getthumbinfo_source(source_object)
-        @source['getthumbinfo'] ||= source_object
+        @source[:getthumbinfo] ||= source_object
       end
 
       def set_mylist_rss_source(source_object)
-        @source['mylist_rss'] ||= source_object
+        @source[:mylist_rss] ||= source_object
       end
 
       def set_tag_search_rss_source(source_object)
-        @source['tag_search_rss'] ||= source_object
+        @source[:tag_search_rss] ||= source_object
       end
 
       def set_video_array_source(source_object)
-        @source['video_array'] ||= source_object
+        @source[:video_array] ||= source_object
       end
 
-      def get_from_getthumbinfo
-        response = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
-        set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new response[:body])
-        @source['getthumbinfo']
+      def get_and_set_getthumbinfo_source
+        @response[:getthumbinfo] = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
+        set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new @response[:getthumbinfo][:body])
       end
     end
   end
