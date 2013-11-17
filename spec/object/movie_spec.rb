@@ -1,6 +1,7 @@
 require 'nicoquery/object/movie'
 require 'fixture/getthumbinfo_deleted'
 require 'fixture/getthumbinfo_community'
+require 'fixture/getthumbinfo_notfound'
 require 'webmock/rspec'
 
 
@@ -133,6 +134,37 @@ describe "NicoQuery::Object::Movie" do
         expect(subject.tags).to be_nil
       end
     end
+  end
 
+  context "when specified movie doesn't exist" do
+    before do
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm99999901?").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => Fixture.getthumbinfo_notfound, :headers => {})
+
+      @movie = NicoQuery::Object::Movie.new('sm99999901')
+    end
+
+    after do
+      WebMock.disable!
+    end
+
+    subject { @movie }
+
+    describe "#exist?" do
+      it "returns false" do
+        expect(subject.exist?).to be_false
+      end
+    end
+
+    describe "getter methods" do
+      specify "all returns nil" do
+        expect(subject.title).to be_nil
+        expect(subject.url).to be_nil
+        expect(subject.view_counter).to be_nil
+        expect(subject.tags).to be_nil
+      end
+    end
   end
 end

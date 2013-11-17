@@ -69,6 +69,13 @@ module NicoQuery
         @source[:getthumbinfo].community?
       end
 
+      def exist?
+        unless @source[:getthumbinfo].present?
+          get_and_set_getthumbinfo_source
+        end
+        @source[:getthumbinfo].exist?
+      end
+
       def set_getthumbinfo_source(source_object)
         @source[:getthumbinfo] ||= source_object
       end

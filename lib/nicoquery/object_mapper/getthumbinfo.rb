@@ -28,6 +28,14 @@ module NicoQuery
         end
       end
 
+      def exist?
+        if @parsed_xml['nicovideo_thumb_response']["error"].presence
+          @parsed_xml['nicovideo_thumb_response']["error"].presence["code"].presence != "NOT_FOUND"
+        else
+          false
+        end
+      end
+
       def video_id
         return nil if @hash == nil
         @hash['video_id']
