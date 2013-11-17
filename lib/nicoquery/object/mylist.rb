@@ -36,11 +36,15 @@ module NicoQuery
       end
 
       def available?
-        [!forbidden?].all?
+        [exist?, !forbidden?].all?
       end
 
       def forbidden?
         @response[:status_code] == 403
+      end
+
+      def exist?
+        @response[:status_code] != 404
       end
     end
   end

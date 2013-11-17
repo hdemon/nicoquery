@@ -11,39 +11,49 @@ describe "NicoQuery::Object::Mylist" do
       @mylist = NicoQuery::Object::Mylist.new(38369702)
     end
 
+    subject { @mylist }
+
     describe "movies" do
       it "returns movie instances" do
-        expect(@mylist.movies).to be_an_instance_of Array
-        expect(@mylist.movies[0]).to be_an_instance_of NicoQuery::Object::Movie
+        expect(subject.movies).to be_an_instance_of Array
+        expect(subject.movies[0]).to be_an_instance_of NicoQuery::Object::Movie
       end
     end
 
     describe "title" do
-      subject { @mylist }
       it "returns string of title" do
         expect(subject.title).to eq "to_test"
       end
     end
 
     describe "url" do
-      subject { @mylist }
       it "returns string of url" do
         expect(subject.url).to eq "http://www.nicovideo.jp/mylist/38369702"
       end
     end
 
     describe "mylist_id" do
-      subject { @mylist }
       it "returns number of mylist_id" do
         expect(subject.mylist_id).to eq 38369702
       end
     end
 
     describe "description" do
-      subject { @mylist }
       it "returns string of title" do
         # mylistのrssでは、descriptionの全文取得はできず、頭から256文字までしか取得できない。
         expect(subject.description).to eq "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa. Sed eleifend nonummy diam. Praesent mauris ante, elementum et, bibendum at, posuere sit amet, nibh. Duis "
+      end
+    end
+
+    describe "#available?" do
+      it "returns true" do
+        expect(subject.available?).to be_true
+      end
+    end
+
+    describe "#exist?" do
+      it "returns true" do
+        expect(subject.exist?).to be_true
       end
     end
   end
@@ -72,6 +82,12 @@ describe "NicoQuery::Object::Mylist" do
     describe "#available?" do
       it "returns false" do
         expect(subject.available?).to be_false
+      end
+    end
+
+    describe "#exist?" do
+      it "returns true" do
+        expect(subject.exist?).to be_true
       end
     end
 
