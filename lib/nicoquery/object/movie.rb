@@ -8,8 +8,6 @@ module NicoQuery
       attr_reader :video_id
 
       [
-        'deleted?',
-
         'title',
         'url',
         'thread_id',
@@ -62,11 +60,22 @@ module NicoQuery
         end
       end
 
+      def available?
+        [exist?, !deleted?].all?
+      end
+
       def community?
         unless @source[:getthumbinfo].present?
           get_and_set_getthumbinfo_source
         end
         @source[:getthumbinfo].community?
+      end
+
+      def deleted?
+        unless @source[:getthumbinfo].present?
+          get_and_set_getthumbinfo_source
+        end
+        @source[:getthumbinfo].deleted?
       end
 
       def exist?
