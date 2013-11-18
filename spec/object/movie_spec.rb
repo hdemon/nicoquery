@@ -62,7 +62,7 @@ describe "NicoQuery::Object::Movie" do
     end
   end
 
-  context "when specified video id and this movie is exist" do
+  context "when specified thread id and this movie is exist" do
     before do
       # thread_id:1173108780 == video_id:sm9
       @movie = NicoQuery::Object::Movie.new(1173108780)
