@@ -24,7 +24,6 @@ module NicoQuery
             @source[:video_array].presence ||
             @source[:getthumbinfo].presence ||
             Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
-
           source.send field_name
         end
       end
@@ -66,10 +65,10 @@ module NicoQuery
       end
 
       def community?
-        unless @source[:getthumbinfo].present?
-          get_and_set_getthumbinfo_source
+        unless @source[:video_array].present?
+          get_and_set_video_array_source
         end
-        @source[:getthumbinfo].community?
+        @source[:video_array].community?
       end
 
       def deleted?
@@ -105,6 +104,12 @@ module NicoQuery
       def get_and_set_getthumbinfo_source
         @response[:getthumbinfo] = (NicoQuery::Api::GetThumbInfo.new(@video_id || @thread_id)).get
         set_getthumbinfo_source(NicoQuery::ObjectMapper::GetThumbInfo.new @response[:getthumbinfo][:body])
+      end
+
+      def get_and_set_video_array_source
+        @response[:video_array] = (NicoQuery::Api::VideoArray.new([@video_id || @thread_id])).get
+        parsed = (NicoQuery::ObjectMapper::VideoArray.new @response[:video_array][:body])
+        set_video_array_source parsed.movies[0]
       end
     end
   end

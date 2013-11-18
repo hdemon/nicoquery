@@ -31,6 +31,10 @@ module NicoQuery
           @hash = parsed_xml
         end
 
+        def community?
+          @hash['thread']['community_id'].present?
+        end
+
         def video_id
           @hash['video']['id']
         end
@@ -82,6 +86,10 @@ module NicoQuery
 
         def size_low
           @hash['video']['size_low'].to_i
+        end
+
+        def community_id
+          @hash['thread']['community_id'].to_i
         end
 
         def tags

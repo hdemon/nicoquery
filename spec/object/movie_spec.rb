@@ -1,6 +1,7 @@
 require 'nicoquery/object/movie'
 require 'fixture/getthumbinfo_deleted'
 require 'fixture/getthumbinfo_community'
+require 'fixture/video_array_community'
 require 'fixture/getthumbinfo_notfound'
 require 'webmock/rspec'
 
@@ -114,6 +115,10 @@ describe "NicoQuery::Object::Movie" do
       WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm99999901?").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => Fixture.getthumbinfo_community, :headers => {})
+
+      WebMock.stub_request(:get, "http://i.nicovideo.jp/v3/video.array?v=sm99999901").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => Fixture.video_array_community, :headers => {})
 
       @movie = NicoQuery::Object::Movie.new('sm99999901')
     end

@@ -1,0 +1,9 @@
+module Fixture
+  def self.video_array_community
+    <<-EOS
+<?xml version="1.0" encoding="UTF-8"?>
+<nicovideo_video_response status="ok"><count>1</count><video_info><video><id>sm19642625</id><deleted>0</deleted><title>BW2ランダムフリー戦記外伝・とうふサラダ抗争・前半【VSひややっこ氏】</title><description>最終回？ナンノコトカナー。今回はフレ戦の模様を余すことなくお送りいたします！&lt;br /&gt;試験的にゆっくりさんを導入！前半は、2試合目までの内容となっております&lt;br /&gt;相手様視点：【sm19641464】&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;とぅいったー　　https://twitter.com/musabe2　　動画投稿の情報はこちらで！&lt;br /&gt;前回【sm19479023】　マイリスト【mylist/32528876】　後半【sm19643040】</description><length_in_seconds>1118</length_in_seconds><size_low>55446451</size_low><movie_type>mp4</movie_type><thumbnail_url>http://tn-skr2.smilevideo.jp/smile?i=19642625</thumbnail_url><upload_time/><first_retrieve>2012-12-22T21:24:18+09:00</first_retrieve><default_thread>1356179058</default_thread><view_counter>493</view_counter><mylist_counter>1</mylist_counter><option_flag_ichiba>0</option_flag_ichiba><option_flag_community>0</option_flag_community><option_flag_domestic>0</option_flag_domestic><option_flag_comment_type>0</option_flag_comment_type><option_flag_adult>0</option_flag_adult><option_flag_mobile>0</option_flag_mobile><option_flag_economy_mp4>1</option_flag_economy_mp4><option_flag_middle_video>0</option_flag_middle_video><option_flag_mobile_ng_apple>0</option_flag_mobile_ng_apple></video><thread><id>1356179347</id><public>1</public><num_res>14</num_res><community_id>1233029</community_id></thread><tags><tag_info><tag>ゲーム</tag><area>jp</area></tag_info><tag_info><tag>ポケモンBW2</tag><area>jp</area></tag_info><tag_info><tag>ポケモンBW2対戦リンク</tag><area>jp</area></tag_info><tag_info><tag>ロズレイド</tag><area>jp</area></tag_info><tag_info><tag>ゆっくり実況プレイ</tag><area>jp</area></tag_info><tag_info><tag>ぬるぽｖｓガッ</tag><area>jp</area></tag_info><tag_info><tag>ゆっくりスボミー</tag><area>jp</area></tag_info></tags></video_info></nicovideo_video_response>
+    EOS
+  end
+end
+
