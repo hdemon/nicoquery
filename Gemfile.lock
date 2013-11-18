@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nicoquery (0.1.6.1)
+    nicoquery (0.1.7)
       activesupport (~> 4.0.0)
       i18n
       nicoapi
