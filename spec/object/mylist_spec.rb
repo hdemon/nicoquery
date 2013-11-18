@@ -5,6 +5,7 @@ require "fixture/mylist_rss_403"
 describe "NicoQuery::Object::Mylist" do
   context "when specified mylist exists and is public" do
     before do
+      WebMock.disable!
       # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
       # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
       # sm1097445 【初音ミク】みくみくにしてあげる♪【してやんよ】
@@ -65,10 +66,6 @@ describe "NicoQuery::Object::Mylist" do
         to_return(:status => 403, :body => Fixture.mylist_rss_403, :headers => {})
 
       @mylist = NicoQuery::Object::Mylist.new(999999)
-    end
-
-    after do
-      WebMock.disable!
     end
 
     subject { @mylist }

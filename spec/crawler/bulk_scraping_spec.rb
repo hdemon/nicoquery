@@ -5,7 +5,7 @@ describe "NicoQuery::Crawler" do
   describe "VideoArray" do
     before do
       @acquired_movies = []
-
+      WebMock.disable! # TODO: WebMockを利用する。
       NicoQuery::Crawler::BulkScraping.execute(['sm20415650', 'sm9']) do |result|
         @acquired_movies.push result
       end

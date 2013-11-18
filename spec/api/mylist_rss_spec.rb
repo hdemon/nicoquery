@@ -6,15 +6,14 @@ require 'webmock/rspec'
 describe "mylist_rss" do
   describe "when access an existing and public mylist" do
     before do
-      @mylist_id = 18266317
-      @uri = "http://www.nicovideo.jp/mylist/#{@mylist_id}?rss=2.0&numbers=1"
-      @instance = NicoQuery::Api::MylistRSS.new @mylist_id
-      WebMock.stub_request :get, @uri
-      # WebMock.reset!
-    end
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://www.nicovideo.jp/mylist/18266317?numbers=1&rss=2.0").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => Fixture.mylist_rss_18266317, :headers => {})
 
-    after(:all) do
-      WebMock.disable!
+      mylist_id = 18266317
+      @uri = "http://www.nicovideo.jp/mylist/#{mylist_id}?rss=2.0&numbers=1"
+      @instance = NicoQuery::Api::MylistRSS.new mylist_id
     end
 
     describe "get" do
