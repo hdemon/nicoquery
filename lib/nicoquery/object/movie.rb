@@ -45,18 +45,19 @@ module NicoQuery
             @source[:getthumbinfo].presence ||
             @source[:video_array].presence ||
             Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
+
           source.send field_name
         end
       end
 
-      def initialize(video_id_of_thread_id)
+      def initialize(video_id_or_thread_id)
         @source = {}
         @response = {}
 
-        if video_id_of_thread_id.to_s.match(/sm|nm/)
-          @video_id = video_id_of_thread_id
+        if video_id_or_thread_id.to_s.match(/sm|nm/)
+          @video_id = video_id_or_thread_id
         else
-          @thread_id = video_id_of_thread_id
+          @thread_id = video_id_or_thread_id
         end
       end
 

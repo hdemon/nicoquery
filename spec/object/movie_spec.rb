@@ -86,6 +86,10 @@ describe "NicoQuery::Object::Movie" do
       @movie = NicoQuery::Object::Movie.new('sm999999')
     end
 
+    after do
+      WebMock.disable!
+    end
+
     subject { @movie }
 
     describe "#deleted?" do
