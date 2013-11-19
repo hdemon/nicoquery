@@ -101,4 +101,47 @@ describe "NicoQuery::Object::Mylist" do
       end
     end
   end
+
+  context "when access for mylist that doesn't exist" do
+    before do
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://www.nicovideo.jp/mylist/999999?rss=2.0&numbers=1").
+        to_return(:status => 404, :body => "", :headers => {})
+
+      @mylist = NicoQuery::Object::Mylist.new(999999)
+    end
+
+    subject { @mylist }
+
+    describe "#forbidden?" do
+      it "returns false" do
+        expect(subject.forbidden?).to be_false
+      end
+    end
+
+    describe "#available?" do
+      it "returns false" do
+        expect(subject.available?).to be_false
+      end
+    end
+
+    describe "#exist?" do
+      it "returns false" do
+        expect(subject.exist?).to be_false
+      end
+    end
+
+    describe "getter methods" do
+      specify "all returns nil" do
+        # タイトルだけは非公開でも取得できる？
+        # expect(subject.title).to be_nil
+        # expect(subject.url).to be_nil
+        # expect(subject.link).to be_nil
+        expect(subject.description).to be_nil
+        expect(subject.publish_date).to be_nil
+        expect(subject.last_build_date).to be_nil
+        expect(subject.creator).to be_nil
+      end
+    end
+  end
 end

@@ -18,21 +18,21 @@ module NicoQuery
         'last_build_date',
         'creator',
       ].each do |field_name|
-        define_method(field_name) { @hash.meta.send field_name }
+        define_method(field_name) do
+          if available?
+            @source_object.meta.send field_name
+          else
+            nil
+          end
+        end
       end
 
       def initialize(mylist_id)
         @movies = []
         @mylist_id = mylist_id
-        @response = (NicoQuery::Api::MylistRSS.new mylist_id).get
-        @hash = NicoQuery::ObjectMapper::MylistRSS.new @response[:body]
-
-        return if @hash.items.nil?
-        @hash.items.map do |item|
-          movie = NicoQuery::Object::Movie.new item.video_id.presence || item.thread_id
-          movie.set_mylist_rss_source item
-          @movies.push movie
-        end
+        @response_xml = (NicoQuery::Api::MylistRSS.new mylist_id).get
+        @source_object = source_object
+        set_hash_items
       end
 
       def available?
@@ -40,11 +40,25 @@ module NicoQuery
       end
 
       def forbidden?
-        @response[:status_code] == 403
+        @response_xml[:status_code] == 403
       end
 
       def exist?
-        @response[:status_code] != 404
+        @response_xml[:status_code] != 404
+      end
+
+      private
+
+      def source_object
+        NicoQuery::ObjectMapper::MylistRSS.new @response_xml[:body]
+      end
+
+      def set_hash_items
+        @source_object.items.each do |item|
+          movie = NicoQuery::Object::Movie.new item.video_id.presence || item.thread_id
+          movie.set_mylist_rss_source item
+          @movies.push movie
+        end
       end
     end
   end
