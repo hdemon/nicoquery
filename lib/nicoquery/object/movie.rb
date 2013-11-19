@@ -26,8 +26,8 @@ module NicoQuery
             Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
 
           # TODO: this is temporary measure.
-          if source.tags == nil then source.tags == []            
-            
+          if source.tags == nil then source.tags == [] end
+
           source.send field_name
         end
       end
