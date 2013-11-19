@@ -50,7 +50,7 @@ module NicoQuery
       private
 
       def source_object
-        NicoQuery::ObjectMapper::MylistRSS.new @response_xml[:body]
+        NicoQuery::ObjectMapper::MylistRSS.new @response_xml[:body].presence || null_response_xml
       end
 
       def set_hash_items
@@ -59,6 +59,29 @@ module NicoQuery
           movie.set_mylist_rss_source item
           @movies.push movie
         end
+      end
+
+      def null_response_xml
+        <<-EOS
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link></link>
+    <atom:link rel="self" type="application/rss+xml" href="http://www.nicovideo.jp/mylist/38350049?rss=2.0"/>
+    <description></description>
+    <pubDate></pubDate>
+    <lastBuildDate></lastBuildDate>
+    <generator></generator>
+    <dc:creator></dc:creator>
+    <language></language>
+    <copyright></copyright>
+    <docs></docs>
+  </channel>
+</rss>
+        EOS
       end
     end
   end
