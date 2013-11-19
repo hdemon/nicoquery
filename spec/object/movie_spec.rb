@@ -99,14 +99,10 @@ describe "NicoQuery::Object::Movie" do
       end
     end
 
-    describe "getter methods" do
-      specify "all returns nil" do
-        expect(subject.title).to be_nil
-        expect(subject.url).to be_nil
-        expect(subject.view_counter).to be_nil
-        expect(subject.tags).to be_nil
-      end
-    end
+    specify { expect(subject.title).to be_nil }
+    specify { expect(subject.url).to be_nil }
+    specify { expect(subject.view_counter).to be_nil }
+    specify { expect(subject.tags).to eql nil }
   end
 
   context "when specified movie belongs to community" do
@@ -135,14 +131,10 @@ describe "NicoQuery::Object::Movie" do
       end
     end
 
-    describe "getter methods" do
-      specify "all returns nil" do
-        expect(subject.title).to be_nil
-        expect(subject.url).to be_nil
-        expect(subject.view_counter).to be_nil
-        expect(subject.tags).to be_nil
-      end
-    end
+    specify { expect(subject.title).to be_nil }
+    specify { expect(subject.url).to be_nil }
+    specify { expect(subject.view_counter).to be_nil }
+    specify { expect(subject.tags).to eql nil }
   end
 
   context "when specified movie doesn't exist" do

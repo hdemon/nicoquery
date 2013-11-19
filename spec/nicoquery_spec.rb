@@ -1,11 +1,15 @@
 require "nicoquery"
 require "pry"
+require "fixture/mylist_rss_normal"
 
 
 describe "NicoQuery" do
   # TODO: object/mylist_spec.rbのコピペなのでDRYに。
   describe "mylist" do
     before do
+      WebMock.stub_request(:get, "http://www.nicovideo.jp/mylist/38369702?numbers=1&rss=2.0").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => Fixture.mylist_rss_normal, :headers => {})
       # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
       # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
       # sm1097445 【初音ミク】みくみくにしてあげる♪【してやんよ】
@@ -98,7 +102,11 @@ describe "NicoQuery" do
 
     context "when passed an string array of video id to argument" do
       before do
-        @movie = NicoQuery.movie(['sm9', 'sm1097445'])
+        WebMock.stub_request(:get, "http://i.nicovideo.jp/v3/video.array?v=sm20415650,sm9").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => "", :headers => {})
+
+        @movie = NicoQuery.movie(['sm20415650', 'sm9'])
       end
 
       subject { @movie }
