@@ -89,15 +89,16 @@ describe "NicoQuery::Object::Mylist" do
     end
 
     describe "getter methods" do
-      specify "all returns nil" do
-        # タイトルだけは非公開でも取得できる？
-        # expect(subject.title).to be_nil
-        # expect(subject.url).to be_nil
-        # expect(subject.link).to be_nil
+      specify "all returns nil or empty array" do
+        expect(subject.title).to be_nil
+        expect(subject.url).to be_nil
+        expect(subject.link).to be_nil
         expect(subject.description).to be_nil
         expect(subject.publish_date).to be_nil
         expect(subject.last_build_date).to be_nil
         expect(subject.creator).to be_nil
+
+        expect(subject.movies).to eql []
       end
     end
   end
@@ -132,15 +133,16 @@ describe "NicoQuery::Object::Mylist" do
     end
 
     describe "getter methods" do
-      specify "all returns nil" do
-        # タイトルだけは非公開でも取得できる？
-        # expect(subject.title).to be_nil
-        # expect(subject.url).to be_nil
-        # expect(subject.link).to be_nil
+      specify "all returns nil or empty array" do
+        expect(subject.title).to be_nil
+        expect(subject.url).to be_nil
+        expect(subject.link).to be_nil
         expect(subject.description).to be_nil
         expect(subject.publish_date).to be_nil
         expect(subject.last_build_date).to be_nil
         expect(subject.creator).to be_nil
+
+        expect(subject.movies).to eql []
       end
     end
   end
