@@ -24,6 +24,10 @@ module NicoQuery
             @source[:video_array].presence ||
             @source[:getthumbinfo].presence ||
             Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
+
+          # TODO: this is temporary measure.
+          if source.tags == nil then source.tags == []            
+            
           source.send field_name
         end
       end

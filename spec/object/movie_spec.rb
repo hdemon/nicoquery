@@ -102,7 +102,7 @@ describe "NicoQuery::Object::Movie" do
     specify { expect(subject.title).to be_nil }
     specify { expect(subject.url).to be_nil }
     specify { expect(subject.view_counter).to be_nil }
-    specify { expect(subject.tags).to eql nil }
+    specify { expect(subject.tags).to eql [] }
   end
 
   context "when specified movie belongs to community" do
@@ -134,7 +134,7 @@ describe "NicoQuery::Object::Movie" do
     specify { expect(subject.title).to be_nil }
     specify { expect(subject.url).to be_nil }
     specify { expect(subject.view_counter).to be_nil }
-    specify { expect(subject.tags).to eql nil }
+    specify { expect(subject.tags).to eql [] }
   end
 
   context "when specified movie doesn't exist" do
