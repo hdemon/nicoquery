@@ -136,7 +136,7 @@ module NicoQuery
 
       def tags
         return nil if @hash.nil? || @hash['tags'].nil?
-        xml = @xml.scan(/\<tags domain=\"jp\">\n.+\n\<\/tags\>/m)[0]
+        xml = @xml.scan(/\<tags domain=\"jp\">\n.+\<\/tags\>/m)[0]
         parsed = Nokogiri::XML xml
         parsed.xpath("//tag").map do |tag_object|
           generate_tag_hash_by tag_object

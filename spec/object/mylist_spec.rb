@@ -57,6 +57,17 @@ describe "NicoQuery::Object::Mylist" do
         expect(subject.exist?).to be_true
       end
     end
+
+    describe "tags" do
+      it "returns object array" do
+        expect(subject.movies[0].tags).to be_an_instance_of Array
+      end
+
+      specify "each object has text and lock key-value" do
+        expect(subject.movies[0].tags).to include(text: '音楽', lock: true)
+      end
+    end
+
   end
 
   context "when access for specified mylist is forbidden" do
