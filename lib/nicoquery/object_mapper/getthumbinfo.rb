@@ -9,7 +9,11 @@ module NicoQuery
         @xml = xml
         @parser = Nori.new
         @parsed_xml = @parser.parse xml
+
         @hash = @parsed_xml['nicovideo_thumb_response']['thumb']
+        if !exist?
+          @hash = @parser.parse null_xml
+        end
       end
 
       def deleted?
@@ -32,7 +36,7 @@ module NicoQuery
         if @parsed_xml['nicovideo_thumb_response']["error"].presence
           @parsed_xml['nicovideo_thumb_response']["error"].presence["code"].presence != "NOT_FOUND"
         else
-          false
+          true
         end
       end
 
@@ -86,7 +90,7 @@ module NicoQuery
       end
 
       def view_counter
-        return nil if @hash == nil
+        return nil if @hash.nil? || @hash['view_counter'].nil?
         @hash['view_counter'].to_i
       end
 
@@ -131,7 +135,7 @@ module NicoQuery
       end
 
       def tags
-        return nil if @hash == nil
+        return nil if @hash.nil? || @hash['tags'].nil?
         xml = @xml.scan(/\<tags domain=\"jp\">\n.+\n\<\/tags\>/m)[0]
         parsed = Nokogiri::XML xml
         parsed.xpath("//tag").map do |tag_object|
@@ -155,6 +159,41 @@ module NicoQuery
         end
 
         { text: text, lock: lock }
+      end
+
+      def null_xml
+        <<-EOS
+          <video_id></video_id>
+          <title></title>
+          <description></description>
+          <thumbnail_url></thumbnail_url>
+          <first_retrieve></first_retrieve>
+          <length></length>
+          <movie_type></movie_type>
+          <size_high></size_high>
+          <size_low></size_low>
+          <view_counter></view_counter>
+          <comment_num></comment_num>
+          <mylist_counter></mylist_counter>
+          <last_res_body></last_res_body>
+          <watch_url></watch_url>
+          <thumb_type></thumb_type>
+          <embeddable></embeddable>
+          <no_live_play></no_live_play>
+          <tags domain="jp">
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+            <tag></tag>
+          </tags>
+          <user_id></user_id>
+        EOS
       end
     end
   end

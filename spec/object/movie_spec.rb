@@ -3,16 +3,21 @@ require 'fixture/getthumbinfo_deleted'
 require 'fixture/getthumbinfo_community'
 require 'fixture/video_array_community'
 require 'fixture/getthumbinfo_notfound'
+require 'fixture/getthumbinfo_sm20415650'
 require 'webmock/rspec'
 
 
 describe "NicoQuery::Object::Movie" do
   context "when specified video id and this movie is exist" do
     before do
-      # mylist:38369702 はテスト用に作ったマイリスト。以下の動画を含んでいる。
-      # sm9 新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師
-      # sm1097445 【初音ミク】みくみくにしてあげる♪【してやんよ】
-      @movie = NicoQuery::Object::Movie.new('sm9')
+      WebMock.enable!
+      WebMock.stub_request(:get, "http://ext.nicovideo.jp/api/getthumbinfo/sm20415650?").
+        to_return(:status => 200, :body => Fixture.getthumbinfo_sm20415650, :headers => {})
+      @movie = NicoQuery::Object::Movie.new('sm20415650')
+    end
+
+    after do
+      WebMock.disable!
     end
 
     subject { @movie }
@@ -25,19 +30,19 @@ describe "NicoQuery::Object::Movie" do
 
     describe "title" do
       it "returns string of title" do
-        expect(subject.title).to eq "新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師"
+        expect(subject.title).to eq "【Minecraft】まったりクラフター生活 ～最終日～【ゆっくり実況】"
       end
     end
 
     describe "url" do
       it "returns string of url" do
-        expect(subject.url).to eq "http://www.nicovideo.jp/watch/sm9"
+        expect(subject.url).to eq "http://www.nicovideo.jp/watch/sm20415650"
       end
     end
 
     describe "video_id" do
       it "returns number of mylist_id" do
-        expect(subject.video_id).to eq "sm9"
+        expect(subject.video_id).to eq "sm20415650"
       end
     end
 
@@ -57,25 +62,25 @@ describe "NicoQuery::Object::Movie" do
       end
 
       specify "each object has text and lock key-value" do
-        expect(subject).to include(text: '陰陽師', lock: true)
+        expect(subject).to include(text: 'Minecraft', lock: true)
       end
     end
   end
 
-  context "when specified thread id and this movie is exist" do
-    before do
-      # thread_id:1173108780 == video_id:sm9
-      @movie = NicoQuery::Object::Movie.new(1173108780)
-    end
+  # context "when specified thread id and this movie is exist" do
+  #   before do
+  #     # thread_id:1173108780 == video_id:sm9
+  #     @movie = NicoQuery::Object::Movie.new(1173108780)
+  #   end
 
-    subject { @movie }
+  #   subject { @movie }
 
-    describe "title" do
-      it "returns string of title" do
-        expect(subject.title).to eq "新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師"
-      end
-    end
-  end
+  #   describe "title" do
+  #     it "returns string of title" do
+  #       expect(subject.title).to eq "新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師"
+  #     end
+  #   end
+  # end
 
   context "when specified movie is deleted" do
     before do
@@ -99,10 +104,14 @@ describe "NicoQuery::Object::Movie" do
       end
     end
 
-    specify { expect(subject.title).to be_nil }
-    specify { expect(subject.url).to be_nil }
-    specify { expect(subject.view_counter).to be_nil }
-    specify { expect(subject.tags).to eql [] }
+    describe "getter methods" do
+      specify "all returns nil" do
+        expect(subject.title).to be_nil
+        expect(subject.url).to be_nil
+        expect(subject.view_counter).to be_nil
+        expect(subject.tags).to be_nil
+      end
+    end
   end
 
   context "when specified movie belongs to community" do
@@ -134,7 +143,7 @@ describe "NicoQuery::Object::Movie" do
     specify { expect(subject.title).to be_nil }
     specify { expect(subject.url).to be_nil }
     specify { expect(subject.view_counter).to be_nil }
-    specify { expect(subject.tags).to eql [] }
+    specify { expect(subject.tags).to be_nil }
   end
 
   context "when specified movie doesn't exist" do

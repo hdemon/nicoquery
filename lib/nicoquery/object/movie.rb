@@ -1,5 +1,7 @@
 require "nicoquery/api/getthumbinfo"
+require "nicoquery/api/video_array"
 require "nicoquery/object_mapper/getthumbinfo"
+require "nicoquery/object_mapper/video_array"
 
 
 module NicoQuery
@@ -24,9 +26,6 @@ module NicoQuery
             @source[:video_array].presence ||
             @source[:getthumbinfo].presence ||
             Proc.new { get_and_set_getthumbinfo_source; @source[:getthumbinfo] }.call
-
-          # TODO: this is temporary measure.
-          if source.tags == nil then source.tags == [] end
 
           source.send field_name
         end
