@@ -50,7 +50,11 @@ module NicoQuery
       private
 
       def source_object
-        NicoQuery::ObjectMapper::MylistRSS.new @response_xml[:body].presence || null_response_xml
+        if available?
+          NicoQuery::ObjectMapper::MylistRSS.new @response_xml[:body]
+        else
+          NicoQuery::ObjectMapper::MylistRSS.new null_response_xml
+        end
       end
 
       def set_hash_items
