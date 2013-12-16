@@ -95,7 +95,9 @@ module NicoQuery
         def tags
           tag_obj = @hash['tags']['tag_info']
 
-          if tag_obj.instance_of? Array
+          if tag_obj.nil?
+            tag_array = []
+          elsif tag_obj.instance_of? Array
             tag_array = tag_obj
           else
             tag_array = [ tag_obj ]

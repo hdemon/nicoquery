@@ -1,14 +1,16 @@
 require "nicoquery/object_mapper/video_array"
 require "fixture/video_array_sm20415650_sm9"
+require "fixture/video_array_no_tags"
 
 
 describe "NicoQuery::ObjectMapper::VideoArray" do
-  before do
-    xml = Fixture.video_array_sm20415650_sm9
-    @result = NicoQuery::ObjectMapper::VideoArray.new xml
-  end
 
   context "sm20415650" do
+    before do
+      xml = Fixture.video_array_sm20415650_sm9
+      @result = NicoQuery::ObjectMapper::VideoArray.new xml
+    end
+
     subject { @result.movies[0] }
 
     describe "#title" do
@@ -83,12 +85,35 @@ describe "NicoQuery::ObjectMapper::VideoArray" do
     end
   end
 
-  # context "when a movie doesn't contain more than one tag" do
-  #   describe "#tags" do
-  #     it "returns number of mylist references" do
-  #       expect(subject.tags).to be_a_kind_of Array
-  #     end
-  #   end
-  # end
+  context "when a movie doesn't contain more than one tag" do
+    before do
+      xml = Fixture.video_array_sm20415650_sm9
+      @result = NicoQuery::ObjectMapper::VideoArray.new xml
+    end
+
+    subject { @result.movies[0] }
+
+    describe "#tags" do
+      it "returns number of mylist references" do
+        expect(subject.tags).to be_a_kind_of Array
+      end
+    end
+  end
+
+  context "when a movie contains no tag" do
+    before do
+      xml = Fixture.video_array_no_tags
+      @result = NicoQuery::ObjectMapper::VideoArray.new xml
+    end
+
+    subject { @result.movies[0] }
+
+    describe "#tags" do
+      it "returns empty array" do
+        expect(subject.tags).to be_a_kind_of Array
+        expect(subject.tags).to be_empty
+      end
+    end
+  end
 
 end
