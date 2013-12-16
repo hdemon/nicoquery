@@ -18,6 +18,8 @@ module NicoQuery
         'mylist_counter',
         'publish_date',
         'description',
+        'thumbnail_url',
+        'length',
       ].each do |field_name|
         define_method(field_name) do
           source =
