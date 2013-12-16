@@ -8,7 +8,7 @@ describe "NicoQuery::ObjectMapper::VideoArray" do
     @result = NicoQuery::ObjectMapper::VideoArray.new xml
   end
 
-  describe "sm20415650" do
+  context "sm20415650" do
     subject { @result.movies[0] }
 
     describe "#title" do
@@ -81,6 +81,14 @@ describe "NicoQuery::ObjectMapper::VideoArray" do
         expect(subject.tags).to be_a_kind_of Array
       end
     end
-
   end
+
+  # context "when a movie doesn't contain more than one tag" do
+  #   describe "#tags" do
+  #     it "returns number of mylist references" do
+  #       expect(subject.tags).to be_a_kind_of Array
+  #     end
+  #   end
+  # end
+
 end

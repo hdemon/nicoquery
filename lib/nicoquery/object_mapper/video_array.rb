@@ -93,7 +93,10 @@ module NicoQuery
         end
 
         def tags
-          @hash['tags']['tag_info'].each_with_object([]) do |tag, array|
+          tag_hash = @hash['tags']['tag_info'].instance_of? Array
+          tag_hash = [ @hash['tags']['tag_info'] ] unless tag_hash.instance_of? Array
+
+          tag_hash.each_with_object([]) do |tag, array|
             array << { text: tag['tag'] }
           end
         end
