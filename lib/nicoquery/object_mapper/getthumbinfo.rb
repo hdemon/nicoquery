@@ -51,6 +51,7 @@ module NicoQuery
       end
 
       def description
+        return nil if @hash.nil? || @hash['description'].nil?
         @_description ||= Description.new @hash['description']
       end
 
