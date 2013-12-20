@@ -1,5 +1,4 @@
 require "nicoquery"
-require "pry"
 require "fixture/mylist_rss_normal"
 
 

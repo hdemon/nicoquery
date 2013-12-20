@@ -2,7 +2,6 @@ require "nicoquery/api/video_array"
 require "nicoquery/object_mapper/video_array"
 require "nicoquery/object/movie"
 require "nori"
-require "pry"
 
 
 module NicoQuery
