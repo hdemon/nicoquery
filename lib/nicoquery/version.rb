@@ -1,3 +1,3 @@
 module NicoQuery
-  VERSION = "0.1.8.10"
+  VERSION = "0.1.8.11"
 end
