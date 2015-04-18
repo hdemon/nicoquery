@@ -1,6 +1,5 @@
 require "nori"
 
-
 module NicoQuery
   module ObjectMapper
     class MylistRSS
