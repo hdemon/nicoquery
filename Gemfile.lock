@@ -29,7 +29,7 @@ GEM
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
-    ffi (1.9.3)
+    ffi (1.15.5)
     formatador (0.2.4)
     guard (2.5.1)
       formatador (>= 0.2.4)
